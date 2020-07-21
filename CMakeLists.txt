@@ -3,7 +3,7 @@ project(opencv_hist)
 
 find_package(OpenCV REQUIRED)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
 include_directories(${OpenCV_INCLUDES})
 
