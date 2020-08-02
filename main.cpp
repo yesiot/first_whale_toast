@@ -8,7 +8,7 @@ const uint32_t nr_h_values = 180;
 const uint32_t h_value_scale = 3;
 const uint32_t nr_s_values = 256;
 const uint32_t s_value_scale = 4;
-const uint32_t threshold = 1;
+const uint32_t threshold = 10;
 
 int main() {
 
@@ -37,12 +37,21 @@ int main() {
         for (auto h = 0; h < histSize[0]; h++) {
             for (auto s = 0; s < histSize[1]; s++) {
                 auto hist_val = hist.at<float>(h, s);
-                if (hist_val >= threshold) {
+
+                auto res = hist_val <=> threshold;
+
+                if (res > 0) {
                     cv::rectangle(hist_frame,
                                   cv::Rect(h * histogram_scale, s * histogram_scale, histogram_scale, histogram_scale),
                                   cv::Scalar(0, 255, hist_val),
                                   -1);
-                } else {
+                } else if (res == 0) {
+                    cv::rectangle(hist_frame,
+                                  cv::Rect(h * histogram_scale, s * histogram_scale, histogram_scale, histogram_scale),
+                                  cv::Scalar(60, 255, hist_val),
+                                  -1);
+                }
+                else {
                     cv::rectangle(hist_frame,
                             cv::Rect(h * histogram_scale, s * histogram_scale, histogram_scale, histogram_scale),
                             cv::Scalar(h * h_value_scale, s * s_value_scale, 128),
